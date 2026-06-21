@@ -116,7 +116,7 @@ export default function Scene({ avatars }: GallerySceneProps) {
         left: 0,
       }}
     >
-      <Canvas camera={{ fov: 75, position: [0, 0, 12], rotation: [0, 0, 0] }}>
+      <Canvas dpr={[1, 2]} camera={{ fov: 75, position: [0, 0, 12], rotation: [0, 0, 0], }}>
         <SceneContent
           avatars={avatars}
           preset={preset}

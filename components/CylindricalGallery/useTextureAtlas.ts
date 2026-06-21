@@ -33,8 +33,15 @@ export function useTextureAtlas(images: string[]): AtlasMetadata {
     const rows = Math.ceil(count / cols);
 
     // Each tile size — use the first texture's natural dimensions
-    const tileW = textures[0]?.image?.width || 512;
-    const tileH = textures[0]?.image?.height || 512;
+    // Limit max tile size to prevent the final atlas from exceeding mobile GPU limits (4096px)
+    const MAX_TILE_SIZE = 512; 
+    const baseW = textures[0]?.image?.width || 512;
+    const baseH = textures[0]?.image?.height || 512;
+    
+    // Scale down proportionally if the image is larger than MAX_TILE_SIZE
+    const scale = Math.min(1, MAX_TILE_SIZE / baseW, MAX_TILE_SIZE / baseH);
+    const tileW = Math.floor(baseW * scale);
+    const tileH = Math.floor(baseH * scale);
     const padding = 2;
 
     const canvasW = cols * (tileW + padding);
